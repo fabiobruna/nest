@@ -13,4 +13,4 @@ Todo
   * Grafiekjes maken
 
 
-[33]:(http://33sticks.com/analyzing-home-heating-and-cooling-data-using-nest-collecting-the-data/)
+[33]: http://33sticks.com/analyzing-home-heating-and-cooling-data-using-nest-collecting-the-data/
