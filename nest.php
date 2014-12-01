@@ -13,53 +13,73 @@ date_default_timezone_set('Europe/Amsterdam');
 
 $nest = new Nest($username, $password);
 
-echo "Location information:\n";
-$locations = $nest->getUserLocations();
-jlog($locations);
-echo "----------\n\n";
+// echo "Location information:\n";
+// $locations = $nest->getUserLocations();
+// jlog($locations);
+// echo "----------\n\n";
 
 echo "Devices list (thermostats):\n";
 $devices_serials = $nest->getDevices();
 jlog($devices_serials);
 echo "----------\n\n";
 
-echo "Devices list (Nest Protect):\n";
-$protects_serials = $nest->getDevices(DEVICE_TYPE_PROTECT);
-jlog($protects_serials);
-echo "----------\n\n";
+// echo "Devices list (Nest Protect):\n";
+// $protects_serials = $nest->getDevices(DEVICE_TYPE_PROTECT);
+// jlog($protects_serials);
+// echo "----------\n\n";
 
 echo "Device information:\n";
 $infos = $nest->getDeviceInfo($devices_serials[0]);
-jlog($infos);
+var_dump($infos);
+
+// jlog($infos);
 echo "----------\n\n";
 
-echo "Current temperature:\n";
-printf("%.02f degrees %s\n", $infos->current_state->temperature, $infos->scale);
-echo "----------\n\n";
 
-sleep(1);
+//Connect To SQL light
+$hostname='***YOUR HOSTNAME HERE***';
+$username='***YOUR DATABSE USERNAME HERE***';
+$password='***YOUR NEST PASSWORD HERE***';
+$dbname='***YOUR NEST DATABASE NAME HERE***';
 
-echo "Device information:\n";
-$infos = $nest->getDeviceInfo();
-jlog($infos);
-echo "----------\n\n";
+$con=mysql_connect($hostname,$username, $password) OR DIE ('Unable to connect to database! Please try again later.');
+mysql_select_db($dbname);
 
-echo "Device schedule:\n";
+//Insert Current Values into Nest Database Table
+$query = 'INSERT INTO nest (log_datetime, location, outside_temp, away_status, current_temp, current_humidity, temp_mode, target_temp, time_to_target, heat_on, ac_on) VALUES ("'.$runTime.'", "'.$runLoc.'", "'.$locations[0]->outside_temperature.'", "'.$locations[0]->away.'", "'.$infos->current_state->temperature.'", "'.$infos->current_state->humidity.'", "'.$infos->current_state->mode.'", "'.$infos->target->temperature.'", "'.$infos->target->time_to_target.'","'.$infos->current_state->heat.'","'.$infos->current_state->ac.'")';
+$result = mysql_query($query);  
+
+//Close mySQL DB connection
+mysql_close($con);
+
+
+// echo "Current temperature:\n";
+// printf("%.02f degrees %s\n", $infos->current_state->temperature, $infos->scale);
+// echo "----------\n\n";
+
+// sleep(1);
+
+// echo "Device information:\n";
+// $infos = $nest->getDeviceInfo();
+// jlog($infos);
+// echo "----------\n\n";
+
+// echo "Device schedule:\n";
 // Returns as array, one element for each day of the week for which there has at least one scheduled event.
 // Array keys are a textual representation of a day, three letters, as returned by `date('D')`. Array values are arrays of scheduled temperatures, including a time (in minutes after midnight), and a mode (one of the TARGET_TEMP_MODE_* defines).
-$schedule = $nest->getDeviceSchedule();
-jlog($schedule);
-echo "----------\n\n";
+// $schedule = $nest->getDeviceSchedule();
+//jlog($schedule);
+//echo "----------\n\n";
 
-echo "Device next scheduled event:\n";
-$next_event = $nest->getNextScheduledEvent();
-jlog($next_event);
-echo "----------\n\n";
+//echo "Device next scheduled event:\n";
+//$next_event = $nest->getNextScheduledEvent();
+//jlog($next_event);
+//echo "----------\n\n";
 
-echo "Last 10 days energy report:\n";
-$energy_report = $nest->getEnergyLatest();
-jlog($energy_report);
-echo "----------\n\n";
+// echo "Last 10 days energy report:\n";
+// $energy_report = $nest->getEnergyLatest();
+// jlog($energy_report);
+// echo "----------\n\n";
 
 /* Helper functions */
 
