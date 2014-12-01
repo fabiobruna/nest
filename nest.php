@@ -35,7 +35,6 @@ var_dump($infos);
 // jlog($infos);
 echo "----------\n\n";
 
-
 //Connect To SQL light
 $hostname='***YOUR HOSTNAME HERE***';
 $username='***YOUR DATABSE USERNAME HERE***';
@@ -47,7 +46,7 @@ mysql_select_db($dbname);
 
 //Insert Current Values into Nest Database Table
 $query = 'INSERT INTO nest (log_datetime, location, outside_temp, away_status, current_temp, current_humidity, temp_mode, target_temp, time_to_target, heat_on, ac_on) VALUES ("'.$runTime.'", "'.$runLoc.'", "'.$locations[0]->outside_temperature.'", "'.$locations[0]->away.'", "'.$infos->current_state->temperature.'", "'.$infos->current_state->humidity.'", "'.$infos->current_state->mode.'", "'.$infos->target->temperature.'", "'.$infos->target->time_to_target.'","'.$infos->current_state->heat.'","'.$infos->current_state->ac.'")';
-$result = mysql_query($query);  
+$result = mysql_query($query);
 
 //Close mySQL DB connection
 mysql_close($con);
@@ -83,81 +82,81 @@ mysql_close($con);
 
 /* Helper functions */
 
-function json_format($json) { 
-    $tab = "  "; 
-    $new_json = ""; 
-    $indent_level = 0; 
-    $in_string = false; 
+function json_format($json) {
+    $tab = "  ";
+    $new_json = "";
+    $indent_level = 0;
+    $in_string = false;
 
-    $json_obj = json_decode($json); 
+    $json_obj = json_decode($json);
 
-    if($json_obj === false) 
-        return false; 
+    if($json_obj === false)
+        return false;
 
-    $json = json_encode($json_obj); 
-    $len = strlen($json); 
+    $json = json_encode($json_obj);
+    $len = strlen($json);
 
-    for($c = 0; $c < $len; $c++) 
-    { 
-        $char = $json[$c]; 
-        switch($char) 
-        { 
-            case '{': 
-            case '[': 
-                if(!$in_string) 
-                { 
-                    $new_json .= $char . "\n" . str_repeat($tab, $indent_level+1); 
-                    $indent_level++; 
-                } 
-                else 
-                { 
-                    $new_json .= $char; 
-                } 
-                break; 
-            case '}': 
-            case ']': 
-                if(!$in_string) 
-                { 
-                    $indent_level--; 
-                    $new_json .= "\n" . str_repeat($tab, $indent_level) . $char; 
-                } 
-                else 
-                { 
-                    $new_json .= $char; 
-                } 
-                break; 
-            case ',': 
-                if(!$in_string) 
-                { 
-                    $new_json .= ",\n" . str_repeat($tab, $indent_level); 
-                } 
-                else 
-                { 
-                    $new_json .= $char; 
-                } 
-                break; 
-            case ':': 
-                if(!$in_string) 
-                { 
-                    $new_json .= ": "; 
-                } 
-                else 
-                { 
-                    $new_json .= $char; 
-                } 
-                break; 
-            case '"': 
-                if($c > 0 && $json[$c-1] != '\\') 
-                { 
-                    $in_string = !$in_string; 
-                } 
-            default: 
-                $new_json .= $char; 
-                break;                    
-        } 
-    } 
+    for($c = 0; $c < $len; $c++)
+    {
+        $char = $json[$c];
+        switch($char)
+        {
+            case '{':
+            case '[':
+                if(!$in_string)
+                {
+                    $new_json .= $char . "\n" . str_repeat($tab, $indent_level+1);
+                    $indent_level++;
+                }
+                else
+                {
+                    $new_json .= $char;
+                }
+                break;
+            case '}':
+            case ']':
+                if(!$in_string)
+                {
+                    $indent_level--;
+                    $new_json .= "\n" . str_repeat($tab, $indent_level) . $char;
+                }
+                else
+                {
+                    $new_json .= $char;
+                }
+                break;
+            case ',':
+                if(!$in_string)
+                {
+                    $new_json .= ",\n" . str_repeat($tab, $indent_level);
+                }
+                else
+                {
+                    $new_json .= $char;
+                }
+                break;
+            case ':':
+                if(!$in_string)
+                {
+                    $new_json .= ": ";
+                }
+                else
+                {
+                    $new_json .= $char;
+                }
+                break;
+            case '"':
+                if($c > 0 && $json[$c-1] != '\\')
+                {
+                    $in_string = !$in_string;
+                }
+            default:
+                $new_json .= $char;
+                break;
+        }
+    }
 
-    return $new_json; 
+    return $new_json;
 }
 
 function jlog($json) {
