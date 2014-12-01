@@ -12,8 +12,8 @@ date_default_timezone_set('Europe/Amsterdam');
 //Capture date and time of script execution
 $runTime = $date = date('Y-m-d H:i:s');
 
-//Zipcode where Nest is located; Will automate in future version
-$runLoc = "2498DB";
+//Zipcode where Nest is located; Will automate in future version. Nu in config.
+// $runLoc = "";
 
 // Here's how to use this class:
 
@@ -23,7 +23,7 @@ $nest = new Nest($username, $password);
 //Uncomment out the three lines below to view what getUserLocations returns [JSON Format]
 $locations = $nest->getUserLocations();
 //echo '<pre>';
-print_r ($locations);
+// print_r ($locations);
 //echo '</pre>';
 
 // echo "Devices list (thermostats):\n";
