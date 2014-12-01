@@ -1,14 +1,13 @@
 <?php
 
-require_once('nest.class.php');
+require_once('./nest-api/nest.class.php');
 
 // Your Nest username and password.
-$username = 'you@gmail.com';
-$password = 'Something other than 1234 right?';
+include('config.php');
 
 // The timezone you're in.
 // See http://php.net/manual/en/timezones.php for the possible values.
-date_default_timezone_set('America/Montreal');
+date_default_timezone_set('Europe/Amsterdam');
 
 // Here's how to use this class:
 
@@ -36,64 +35,6 @@ echo "----------\n\n";
 
 echo "Current temperature:\n";
 printf("%.02f degrees %s\n", $infos->current_state->temperature, $infos->scale);
-echo "----------\n\n";
-
-echo "Setting target temperature...\n";
-// Note: setting temperatures will use the units you set on the device. I'm using celsius on my device, so I'm using celsius here.
-$success = $nest->setTargetTemperature(26);
-var_dump($success);
-
-echo "Setting target temperatures (range)...\n";
-$success = $nest->setTargetTemperatures(23.0, 26.0);
-var_dump($success);
-
-echo "Setting target temperature mode...\n";
-$success = $nest->setTargetTemperatureMode(TARGET_TEMP_MODE_COOL, 26.0); // Available: TARGET_TEMP_MODE_COOL, TARGET_TEMP_MODE_HEAT, TARGET_TEMP_MODE_RANGE
-var_dump($success);
-
-echo "Setting target temperature mode (range)...\n";
-$success = $nest->setTargetTemperatureMode(TARGET_TEMP_MODE_RANGE, array(23.0, 26.0)); // Available: TARGET_TEMP_MODE_COOL, TARGET_TEMP_MODE_HEAT, TARGET_TEMP_MODE_RANGE
-var_dump($success);
-
-echo "Setting fan mode...\n";
-$success = $nest->setFanMode(FAN_MODE_ON); // Available: FAN_MODE_AUTO or FAN_MODE_EVERY_DAY_OFF, FAN_MODE_ON or FAN_MODE_EVERY_DAY_ON
-// setFanMode() can also take an array as it's argument. See the comments below for examples (FAN_MODE_TIMER, FAN_MODE_MINUTES_PER_HOUR).
-var_dump($success);
-
-echo "Setting fan mode: on with timer (15 minutes)...\n";
-$success = $nest->setFanModeOnWithTimer(FAN_TIMER_15M); // Available: FAN_TIMER_15M, FAN_TIMER_30M, FAN_TIMER_45M, FAN_TIMER_1H, FAN_TIMER_2H, FAN_TIMER_4H, FAN_TIMER_8H, FAN_TIMER_12H
-//$success = $nest->setFanMode(array(FAN_MODE_TIMER, 900)); // Same as above. See the FAN_TIMER_* defines for the possible values.
-var_dump($success);
-
-echo "Canceling timer that was just set...\n";
-$success = $nest->cancelFanModeOnWithTimer();
-var_dump($success);
-
-echo "Setting fan mode to 30 minutes per hour...\n";
-$success = $nest->setFanModeMinutesPerHour(FAN_MODE_MINUTES_PER_HOUR_30); // Available: FAN_MODE_MINUTES_PER_HOUR_15, FAN_MODE_MINUTES_PER_HOUR_30, FAN_MODE_MINUTES_PER_HOUR_45, FAN_MODE_MINUTES_PER_HOUR_ALWAYS_ON
-//$success = $nest->setFanMode(array(FAN_MODE_MINUTES_PER_HOUR, 1800)); // Same as above. See the FAN_MODE_MINUTES_PER_HOUR_* defines for the possible values.
-var_dump($success);
-
-echo "Setting fan mode to run every day, but only between 5am and 10pm...\n";
-$success = $nest->setFanEveryDaySchedule(5, 22); // Send 0,0 to run all day long
-var_dump($success);
-
-echo "Turning system off...\n";
-$success = $nest->turnOff();
-var_dump($success);
-
-echo "Setting away mode...\n";
-$success = $nest->setAway(AWAY_MODE_ON); // Available: AWAY_MODE_ON, AWAY_MODE_OFF
-var_dump($success);
-
-echo "Enabling (Nest Sense) Auto-Away...\n";
-$success = $nest->setAutoAwayEnabled(true);
-var_dump($success);
-
-echo "Setting dual-fuel breakpoint (use alternative heat when the outdoor temperature is below -5°)...\n";
-// Note: when using temperatures, it will use the units you set on the device. I'm using celsius on my device, so I'm using celsius here.
-$success = $nest->setDualFuelBreakpoint(-5); // Available: DUALFUEL_BREAKPOINT_ALWAYS_PRIMARY, DUALFUEL_BREAKPOINT_ALWAYS_ALT, or a temperature between -12°C and 9°C (10-50°F)
-var_dump($success);
 echo "----------\n\n";
 
 sleep(1);
