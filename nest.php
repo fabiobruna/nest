@@ -1,9 +1,10 @@
 <?php
 
-require_once('./nest-api/nest.class.php');
 
 // Your Nest username and password.
 include('config.php');
+
+require_once($pad.'nest-api/nest.class.php');
 
 // The timezone you're in.
 // See http://php.net/manual/en/timezones.php for the possible values.
@@ -41,7 +42,7 @@ $infos = $nest->getDeviceInfo();
 $query = 'INSERT INTO nest (log_datetime, location, outside_temp, away_status, current_temp, current_humidity, temp_mode, target_temp, time_to_target, heat_on, ac_on) VALUES ("'.$runTime.'", "'.$runLoc.'", "'.$locations[0]->outside_temperature.'", "'.$locations[0]->away.'", "'.$infos->current_state->temperature.'", "'.$infos->current_state->humidity.'", "'.$infos->current_state->mode.'", "'.$infos->target->temperature.'", "'.$infos->target->time_to_target.'","'.$infos->current_state->heat.'","'.$infos->current_state->ac.'")';
 
 
-if ($db = new SQLite3('nest.db')) {
+if ($db = new SQLite3($pad.'nest.db')) {
     $q = @$db->query($query);
 } else {
     die($err);
