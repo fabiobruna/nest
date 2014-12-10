@@ -23,9 +23,16 @@ $nest = new Nest($username, $password);
 //Used to return current outside temperature and away status
 //Uncomment out the three lines below to view what getUserLocations returns [JSON Format]
 $locations = $nest->getUserLocations();
-//echo '<pre>';
-// print_r ($locations);
-//echo '</pre>';
+// echo '<pre>';
+//  print_r ($locations);
+// echo '</pre>';
+
+// weather data is retreived with postal code from nest, and does not work in NL(?). City name however does work
+
+$weather = $nest->getWeather($runLoc);
+// echo '<pre>';
+//  print_r ($weather);
+// echo '</pre>';
 
 // echo "Devices list (thermostats):\n";
 $devices_serials = $nest->getDevices();
@@ -39,8 +46,7 @@ $infos = $nest->getDeviceInfo();
 //echo '</pre>';
 // echo "----------\n\n";
 
-$query = 'INSERT INTO nest (log_datetime, location, outside_temp, away_status, current_temp, current_humidity, temp_mode, target_temp, time_to_target, heat_on, ac_on) VALUES ("'.$runTime.'", "'.$runLoc.'", "'.$locations[0]->outside_temperature.'", "'.$locations[0]->away.'", "'.$infos->current_state->temperature.'", "'.$infos->current_state->humidity.'", "'.$infos->current_state->mode.'", "'.$infos->target->temperature.'", "'.$infos->target->time_to_target.'","'.$infos->current_state->heat.'","'.$infos->current_state->ac.'")';
-
+$query = 'INSERT INTO nest (log_datetime, location, outside_temp, outside_humidity, away_status, current_temp, current_humidity, temp_mode, target_temp, time_to_target, heat_on, ac_on) VALUES ("'.$runTime.'", "'.$runLoc.'", "'.$weather->outside_temperature.'", "'.$weather->outside_humidity.'", "'.$locations[0]->away.'", "'.$infos->current_state->temperature.'", "'.$infos->current_state->humidity.'", "'.$infos->current_state->mode.'", "'.$infos->target->temperature.'", "'.$infos->target->time_to_target.'","'.$infos->current_state->heat.'","'.$infos->current_state->ac.'")';
 
 if ($db = new SQLite3($pad.'nest.db')) {
     $q = @$db->query($query);
