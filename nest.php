@@ -1,6 +1,8 @@
 <?php
 
 
+error_reporting(E_ALL);
+
 // Your Nest username and password.
 include('config.php');
 
