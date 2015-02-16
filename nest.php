@@ -46,7 +46,19 @@ $infos = $nest->getDeviceInfo();
 //echo '</pre>';
 // echo "----------\n\n";
 
-$query = 'INSERT INTO nest (log_datetime, location, outside_temp, outside_humidity, away_status, current_temp, current_humidity, temp_mode, target_temp, time_to_target, heat_on, ac_on) VALUES ("'.$runTime.'", "'.$runLoc.'", "'.$weather->outside_temperature.'", "'.$weather->outside_humidity.'", "'.$locations[0]->away.'", "'.$infos->current_state->temperature.'", "'.$infos->current_state->humidity.'", "'.$infos->current_state->mode.'", "'.$infos->target->temperature.'", "'.$infos->target->time_to_target.'","'.$infos->current_state->heat.'","'.$infos->current_state->ac.'")';
+$query = 'INSERT INTO nest (log_datetime, location, outside_temp, outside_humidity, away_status, current_temp, current_humidity, temp_mode, target_temp, time_to_target, heat_on, ac_on) 
+          VALUES ("'.$runTime.'", "'
+                    .$runLoc.'", "'
+                    .$weather->outside_temperature.'", "'
+                    .$weather->outside_humidity.'", "'
+                    .$locations[0]->away.'", "'
+                    .$infos->current_state->temperature.'", "'
+                    .$infos->current_state->humidity.'", "'
+                    .$infos->current_state->mode.'", "'
+                    .$infos->target->temperature.'", "'
+                    .$infos->target->time_to_target.'","'
+                    .$infos->current_state->heat.'","'
+                    .$infos->current_state->ac.'")';
 
 if ($db = new SQLite3($pad.'nest.db')) {
     $q = @$db->query($query);
