@@ -1,15 +1,15 @@
 nest
 ====
 
-PHP scriptje om periodiek gegevens van je Nest in een sqllite database te zetten. Variant op dit [script][33]. 
+PHP scriptje om periodiek gegevens van je Nest in een sqllite database te zetten. Variant op dit [script][33].
 
-Draait op een Raspberry Pi. 
+Draait bij mij op een Raspberry Pi.
 
 Todo
-==== 
+====
 
   * Error checking en meldingen
-  * Testen 
+  * Testen
   * Grafiekjes maken
 
 
