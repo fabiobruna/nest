@@ -57,7 +57,7 @@ $query = 'INSERT INTO nest (log_datetime, location, outside_temp, outside_humidi
                     .$infos->current_state->temperature.'", "'
                     .$infos->current_state->humidity.'", "'
                     .$infos->current_state->mode.'", "'
-                    .$infos->target->temperature.'", "'
+                    .is_array($infos->target->temperature) ? $infos->target->temperature : ''.'", "'
                     .$infos->target->time_to_target.'","'
                     .$infos->current_state->heat.'","'
                     .$infos->current_state->ac.'")';
